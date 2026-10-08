@@ -1,0 +1,25 @@
+# Proposed settings only. No code reads or enforces this file yet.
+config_version: 1
+status: planning
+synthetic_only: true
+storage:
+  raw: data/raw
+  staging: data/staging
+  analytics: data/approved/analytics
+  training: data/approved/training
+  restricted: data/restricted
+  audit: data/audit
+processing:
+  engine: pyspark
+  timezone: UTC
+  output_format: parquet
+  freshness_max_age_hours: null  # Required before enabling publication.
+  future_timestamp_tolerance_seconds: null
+  consent_snapshot_max_age_hours: null
+  deletion_snapshot_max_age_hours: null
+publication:
+  enabled: false
+  unverified_control_action: block
+  scope: dataset_run_and_purpose
+  require_output_validation: true
+  require_durable_audit: true
