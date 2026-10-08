@@ -1,0 +1,23 @@
+# Synthetic exercise policy, not a statement of legal requirements.
+# Null values and unknown jurisdictions must block publication.
+policy_version: draft-1
+status: planning
+unknown_jurisdiction_action: block
+missing_consent_action: block
+ambiguous_consent_action: block
+unknown_field_action: reject
+purposes:
+  analytics:
+    enabled: false
+    allowed_fields: [event_id, subject_key, event_time, event_type, product_id, quantity]
+  simulated_training:
+    enabled: false
+    allowed_fields: [event_id, event_time, event_type, product_id, quantity]
+restricted_fields: [email, phone, device_id, free_text]
+jurisdictions: {}  # Add fictional rules with allowed purposes and retention_days.
+retention:
+  raw_days: null
+  rejected_days: null
+  audit_days: null
+  approved_days: null
+# subject_key is pseudonymous, not anonymous; restrict access accordingly.
