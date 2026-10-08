@@ -1,0 +1,31 @@
+name: Scaffold checks
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check Python syntax
+        run: python -m compileall -q src
+      - name: Check project metadata and module imports
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PYTHON'
+          import pathlib
+          import tomllib
+          import importlib
+          tomllib.loads(pathlib.Path("pyproject.toml").read_text())
+          for path in pathlib.Path("src/trusted_data").glob("*.py"):
+              importlib.import_module("trusted_data." + path.stem)
+          PYTHON
+      # Add pytest when real behavioral tests exist. No pipeline tests run yet.
